@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const userscontrol = require('../Controllers/usersController');
 const middleware = require('../Middleware/userAuth');
+const google = require('../Middleware/googleAuth');
 const passport = require('passport');
 require('../Controllers/googleAuth');
 
@@ -19,12 +20,12 @@ router.get('/google/callback',
         failureRedirect: '/not',
 }));
 
-router.get('/protected' , (req, res) => {
+router.get('/protected', middleware.authorize, (req, res) => {
     res.send('hello');
-})
+});
 
 router.get('/not' , (req, res) => {
     res.send('unauthirized');
-})
+});
 
 module.exports = router;

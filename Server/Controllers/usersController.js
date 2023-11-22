@@ -38,8 +38,9 @@ async function createUser (req, res){
             phone_number : phone_number,
             user_location : user_location,
         });
-        const accessToken = jwt.sign({id : newUser.id, email : newUser.user_email}, process.env.SECRET_KEY, {expiresIn: '4h'});
-        res.cookie('jwt', accessToken, { httpOnly: true, maxAge: 3600000 });
+        console.log(newUser);
+        const accessToken = jwt.sign({id : newUser.dataValues.user_id, email : newUser.user_email}, process.env.SECRET_KEY, {expiresIn: '4h'});
+        res.cookie('accessToken', accessToken, { httpOnly: true, maxAge: 3600000 });
         res.status(201).json(accessToken);
     }else {
         res.status(400).json("Invalid input");
@@ -65,8 +66,9 @@ async function loginUser (req, res){
                     console.log(error); // test
                     res.status(400).json(error);
                 } else if (result) {
-                    const accessToken = jwt.sign({id : user.id, email : user.user_email}, process.env.SECRET_KEY, {expiresIn: '4h'});
-                    res.cookie('jwt', accessToken, { httpOnly: true, maxAge: 3600000 });
+                    console.log(user.dataValues.user_id);
+                    const accessToken = jwt.sign({id : user.dataValues.user_id, email : user.user_email}, process.env.SECRET_KEY, {expiresIn: '4h'});
+                    res.cookie('accessToken', accessToken, { httpOnly: true });
                     console.log(accessToken); // test
                     res.status(200).json(accessToken);
                 } else {

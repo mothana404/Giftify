@@ -9,17 +9,16 @@ const { Op } = require('sequelize');
 const app = express();
 app.use(express.json());
 
-app.use(session(
-    { 
-        secret: process.env.SECRET_KEY,
-        resave: true,
-        saveUninitialized: true 
-    }
-));
+// app.use(session(
+//     { 
+//         secret: process.env.SECRET_KEY,
+//         resave: true,
+//         saveUninitialized: true 
+//     }
+// ));
 
-app.use(passport.initialize());
-app.use(passport.session());
-
+// app.use(passport.initialize());
+// app.use(passport.session());
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -64,20 +63,14 @@ passport.use(new GoogleStrategy({
     
         done(null, user.toJSON());
       } catch (error) {
-        console.log(error);
         done(error);
       }
 }));
 
 passport.serializeUser((user, done) => {
-    done(null, user.id);
+    done(null, user);
 });
 
-passport.deserializeUser(async (id, done) => {
-    try {
-        const user = await Users.findByPk(id);
-        done(null, user);
-    } catch (error) {
-        done(error);
-    }
+passport.deserializeUser(async (user, done) => {
+    done(null, user);
 });

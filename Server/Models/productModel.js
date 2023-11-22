@@ -37,6 +37,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    img_url: {
+        type: DataTypes.STRING, // Adjust the data type as needed
+        allowNull: true, // Set to false if img_url cannot be null
+        defaultValue: null, // Set a default value if needed
+    },
   });
 
   return Products;
