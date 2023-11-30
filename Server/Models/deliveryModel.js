@@ -15,24 +15,8 @@ module.exports = (sequelize) => {
         key: 'user_id',
       },
     },
-    delivery_to: {
-      type: DataTypes.BIGINT,
-      allowNull: false,
-      references: {
-        model: 'Recipients',
-        key: 'recipient_id',
-      },
-    },
     order_delivery: {
       type: DataTypes.BIGINT,
-      allowNull: false,
-      references: {
-        model: 'Orders',
-        key: 'order_id',
-      },
-    },
-    city: {
-      type: DataTypes.STRING, // Adjust the data type based on your needs
       allowNull: false,
     },
   });

@@ -66,21 +66,3 @@ module.exports = {
     uploadImg,
     admin
 };
-
-
-
-// For images
-// const imageStorage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, 'images');
-//   },
-//   filename: (req, file, cb) => {
-//     const filename = Date.now() + path.extname(file.originalname);
-//     cb(null, filename);
-//   },
-// });
-
-// const uploadImage = multer({ storage: imageStorage });
-// app.use('/images', express.static('images'));
-
-// module.exports = { uploadImage };

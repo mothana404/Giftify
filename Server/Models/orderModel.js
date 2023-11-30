@@ -33,10 +33,6 @@ module.exports = (sequelize) => {
       type: DataTypes.DATE,
       defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
     },
-    city: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
     order_price: {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
@@ -45,7 +41,21 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-  });
+    is_deleted: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+    },
+    is_payed: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
+    },
+    order_for: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+    },
+});
 
   return Order;
 };

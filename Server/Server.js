@@ -23,11 +23,13 @@ const userRoutes = require('./Routes/userRoutes');
 const dashboardRoutes = require('./Routes/dashboardRoutes');
 const pagesRoutes = require('./Routes/pagesRoutes');
 const userProfileRoutes = require('./Routes/userProfileRoutes');
+const paymentRoutes = require('./Routes/paymentRoutes');
 
 app.use(userRoutes);
 app.use(dashboardRoutes);
 app.use(pagesRoutes);
 app.use(userProfileRoutes);
+app.use(paymentRoutes);
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

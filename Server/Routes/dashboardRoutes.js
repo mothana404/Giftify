@@ -15,4 +15,8 @@ router.get('/getPaginationProduct/:page/:limit' , dashboardcontroller.getProduac
 
 router.get('/getcontact', dashboardcontroller.getContact);
 
+//get all the orders
+//delete order
+//update order
+
 module.exports = router;

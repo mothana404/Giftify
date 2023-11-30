@@ -34,7 +34,8 @@ async function getproductsType(req, res){
 
 async function getProductDetails(req, res){
     try{
-        const user_id =  42;
+        console.log('here');
+        // const user_id =  req.user.authorization;
         const productID = req.params.id;
         const product = await Products.findByPk(productID);
         const reactions = await Reaction.findAll({
@@ -42,7 +43,7 @@ async function getProductDetails(req, res){
                 product_reaction_id : productID,
             }
         });
-        res.status(200).json({product, reactions, user_id});
+        res.status(200).json({product, reactions});
     }catch(error){
         console.log(error);
         res.status(500).json("error in get Details");
@@ -95,31 +96,35 @@ async function addReaction(req, res){
 
 async function addToOreders(req, res){
     try{
-        const userID = req.user.id || 0;
-        const { product_order_id, city, order_price, order_count } = req.body;
+        const userID = 45;
+        const  price = req.body.productData.price;
+        // console.log(req.body.productData.price);
         const order = await Order.create({
             user_order_id : userID,
-            product_order_id : product_order_id,
-            city : city || null,
-            order_price : order_price,
-            order_count : order_count
+            product_order_id : 66,
+            order_price : price,
+            order_count : 1,
+            is_payed : false,
+            order_for : null
         });
         res.status(201).json(order);
     }catch(error){
+        console.log(error);
         res.status(500).json("error in add To Oreders");
     }
 };
 
 async function addToWishlist(req, res){
     try{
-        const userID = req.user.id;
+        const userID = 45;
         const productID = req.params.id;
         const wishlist = await Wishlist.create({
             user_wishlist_id : userID,
             product_wishlist_id : productID,
         });
-        res.staus(201).json(wishlist);
+        res.status(201).json(wishlist);
     }catch(error){
+        console.log(error);
         res.status(500).json('error in add to wish list');
     }
 };
@@ -138,6 +143,100 @@ async function sendContactus(req, res){
     }catch(error){
         res.status(500).json('error in send contactus message')
     }
+};
+
+async function removeFromOrders(req, res){
+    try{
+        const userID = 45;
+        const OrderID = req.params.itemId;
+        console.log(OrderID);
+        const deletedOrder = await Order.findOne({
+            where : {
+                user_order_id : userID,
+                order_id : OrderID,
+            }
+        });
+        deletedOrder.update({
+            is_deleted : true,
+        });
+        res.status(201).json(deletedOrder);
+    }catch(error){
+        res.status(500).json("error in remove from orders");
+    }
+};
+
+async function updateReaction(){
+    try{
+
+    }catch(error){
+        res.status(500).json('error in update reaction');
+    }
+};
+
+async function deleteReaction(req, res){
+    try{
+
+    }catch(error){
+        res.status(500).json('error in delete reaction');
+    }
+};
+
+async function getOrders(req, res){
+    try{
+        // const userID = req.user.id;
+        const userID = 45;
+        const orders = await Order.findAll({
+            where : {
+                user_order_id : userID,
+                is_deleted : false,
+            }
+        });
+        res.status(200).json(orders);
+    }catch(error){
+        res.status(500).json('error in get orders');
+    }
+};
+
+async function increment(req ,res){
+    try{
+        const userID = 45;
+        const orderID = req.params.itemId;
+        const orderIncrement = await Order.findOne({
+            where : {
+                order_id : orderID,
+                user_order_id : userID
+            },
+            returning: true
+        });
+        await orderIncrement.update({
+            order_count: orderIncrement.order_count + 1,
+          });
+        console.log(11111111111, orderIncrement);
+        res.status(201).json(orderIncrement);
+    }catch(error){
+        res.status(500).json('error in increment controller');
+    }
+};
+
+async function decrement(req, res){
+    try{
+        const userID = 45;
+        const orderID = req.params.itemId;
+        const orderIncrement = await Order.findOne({
+            where : {
+                order_id : orderID,
+                user_order_id : userID
+            },
+            returning: true
+        });
+        await orderIncrement.update({
+            order_count: orderIncrement.order_count - 1,
+          });
+        console.log(11111111111, orderIncrement);
+        res.status(201).json(orderIncrement);
+    }catch(error){
+        res.status(500).json('error in Decrement controller')
+    }
 }
 
 module.exports = {
@@ -148,6 +247,12 @@ module.exports = {
     addToOreders,
     addToWishlist,
     sendContactus,
+    removeFromOrders,
+    updateReaction,
+    deleteReaction,
+    getOrders,
+    increment,
+    decrement,
 };
         // if (ractions.length > 1){
 

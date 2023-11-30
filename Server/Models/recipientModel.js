@@ -7,25 +7,25 @@ module.exports = (sequelize) => {
       primaryKey: true,
       autoIncrement: true,
     },
-    recipient_f_name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    recipient_l_name: {
+    recipient_name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
     recipient_phone_number: {
-      type: DataTypes.STRING, // Adjust the data type based on your needs
-      allowNull: false,
-    },
-    recipient_address: {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    ordered_at: {
-      type: DataTypes.DATE,
-      defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
+    recipient_location: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    recipient_card_id: {
+        type: DataTypes.BIGINT,
+        allowNull: false,
+    },
+    card_text: {
+        type: DataTypes.TEXT,
+        allowNull: false,
     },
   });
 

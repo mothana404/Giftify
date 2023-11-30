@@ -20,7 +20,6 @@ async function authorize(req, res, next){
                 const user = jwt.verify(accessToken, process.env.SECRET_KEY);
                 console.log(user);
                 if(user.email){
-                    console.log(user);
                     req.user = user;
                     next();
                 }else{

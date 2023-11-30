@@ -1,6 +1,7 @@
 // models/Reaction.js
 const { boolean } = require('joi');
-const { sequelize, DataTypes } = require('sequelize');
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/config.json');
 // const {Users} = require('./userModel');
 module.exports = (sequelize) => {
   const Reaction = sequelize.define('Reaction', {
