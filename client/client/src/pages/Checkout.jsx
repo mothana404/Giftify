@@ -46,8 +46,8 @@ const Checkout = ({ cartItems }) => {
         <div className="bg-white shadow-md p-4">
           <h2 className="text-lg font-semibold mb-4">Checkout</h2>
           {cartItems.map((item) => (
-            <div key={item.id} className="flex justify-between mb-2">
-              <span>{item.name} x {item.order_count}</span>
+            <div key={item.Product_id} className="flex justify-between mb-2">
+              <span>{item.product.product_name} x {item.order_count}</span>
               <span>${item.order_price * item.order_count}</span>
             </div>
           ))}

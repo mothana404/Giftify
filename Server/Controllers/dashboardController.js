@@ -1,4 +1,4 @@
-const { Users, Role, Products , ContactUs } = require('../Models');
+const { Users, Role, Products , ContactUs , Reaction, Order, Wishlist, Recipient } = require('../Models');
 
 async function getUsers(req, res){
     try {
@@ -158,6 +158,101 @@ async function getProduactsWithPagination(req, res){
     }
 };
 
+async function getAllOrders(req, res){
+    try{
+        const allOrders = await Order.findAll({
+            include: [
+              {
+                model: Products,
+                as: 'product',
+                attributes: ['product_name', 'product_rating', 'price', 'img_url'],
+              },
+              {
+                model: Users,
+                as: 'User',
+                attributes: ['user_id', 'f_name', 'l_name', 'user_email', 'phone_number'],
+              },
+              {
+                model: Recipient,
+                as: 'recipient',
+                attributes: ['recipient_id', 'recipient_location', 'recipient_name', 'recipient_phone_number', 'createdAt'],
+              },
+            ],
+          });
+        res.status(200).json(allOrders);
+    }catch(error){
+        console.log(error)
+        res.status(500).json('error in get all orders controller')
+    }
+};
+
+async function deleteOrder(req, res){
+    try{
+        const orderID = req.params.orderID;
+        const is_payed = false;
+        const is_deleted = true;
+        const deltedOrder = await Order.update({is_payed, is_deleted},
+            {
+                where : {
+                    order_id : orderID
+                }
+            });
+        res.status(201).json(deltedOrder);
+    }catch(error){
+        console.log(error)
+        res.status(500).json('error in delete order controller');
+    }
+};
+
+async function getDrivers(req, res){
+    try{
+        const allDrivers = await Users.findAll({
+            where : {
+                role : 'driver'
+            }
+        });
+        res.status(200).json(allDrivers);
+    }catch(error){
+        res.status(500).json('error in get divers controller');
+    }
+};
+
+async function addDriver(req, res){
+    try{
+
+    }catch(error){
+        res.status(500).json('error in add diver controller');
+    }
+};
+
+async function dalateDriver(req, res){
+    try{
+
+    }catch(error){
+        res.status(500).json('error in delete driver controller')
+    }
+};
+
+async function addAdmin(req, res){
+    try{
+        const { adminData } = req.body;
+        const newAdmin = await Users.create({
+            adminData
+        });
+        res.status(201).json(newAdmin);
+    }catch(error){
+        res.status(500).json('error in add admin controller');
+    }
+};
+
+async function updateOrder(req, res){
+    try{
+        res.status(201).json('done');
+    }catch(error){
+        res.status(500).json('error in update Order controller');
+    }
+}
+
 module.exports = {
     getUsers,
     updateUsers,
@@ -168,4 +263,11 @@ module.exports = {
     deleteProduct,
     getContact,
     getProduactsWithPagination,
+    getAllOrders,
+    deleteOrder,
+    getDrivers,
+    addDriver,
+    dalateDriver,
+    addAdmin,
+    updateOrder,
 };

@@ -12,7 +12,7 @@ export const Cart = () => {
   }, []);
 
   const fetchCartData = () => {
-    axios.get('http://localhost:8080/getOrders')
+    axios.get('http://localhost:8080/getCart')
       .then(response => {
         console.log(response.data)
         setCartItems(response.data); 
@@ -44,8 +44,9 @@ export const Cart = () => {
       });
   };
 
-  const handleRemove = (itemId) => {
-    axios.put(`http://localhost:8080/removeFromOrders/${itemId}`)
+  const handleRemove = (itemId, isOrder = false) => {
+    const params = isOrder ? { order_id: itemId } : { product_id: itemId };
+    axios.put(`http://localhost:8080/removeFromOrders`, params)
       .then(() => {
         fetchCartData();
       })
@@ -72,15 +73,15 @@ export const Cart = () => {
                       <div className="shrink-0">
                         <img
                           className="h-24 w-24 max-w-full rounded-lg object-cover"
-                          src={item.image}
-                          alt={item.name}
+                          src={item.product.img_url}
+                          alt={item.product.product_name}
                         />
                       </div>
                       <div className="relative flex flex-1 flex-col justify-between">
                         <div className="sm:col-gap-5 sm:grid sm:grid-cols-2">
                           <div className="pr-8 sm:pr-5">
                             <p className="text-base font-semibold text-gray-900">
-                              {item.name}
+                              {item.product.product_name}
                             </p>
                             <p className="mx-0 mt-1 mb-0 text-sm text-gray-400">
                               Count: {item.order_count}
@@ -96,7 +97,9 @@ export const Cart = () => {
                           </div>
                         </div>
                         <div className="absolute top-0 right-0 flex sm:bottom-0 sm:top-auto">
-                          <button onClick={() => handleRemove(item.order_id)} className="bg-red-500 p-2 rounded-md text-white">Remove</button>
+                          <button onClick={() => handleRemove(item.order_id, true)} className="bg-red-500 p-2 rounded-md text-white">
+                            Remove
+                          </button>
                         </div>
                       </div>
                     </div>

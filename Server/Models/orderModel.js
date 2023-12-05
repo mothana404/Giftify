@@ -1,5 +1,3 @@
-// Example: models/Order.js
-
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
@@ -56,6 +54,26 @@ module.exports = (sequelize) => {
         allowNull: true,
     },
 });
+
+Order.associate = (models) => {
+    Order.belongsTo(models.Products, {
+      foreignKey: 'product_order_id',
+      as: 'product', // Alias for the association
+      onDelete: 'CASCADE',
+    });
+
+    Order.belongsTo(models.Users, {
+      foreignKey: 'user_order_id',
+      as: 'User', // Alias for the association
+      onDelete: 'CASCADE',
+    });
+
+    Order.belongsTo(models.Recipient, {
+        foreignKey: 'order_for',
+        as: 'recipient', // Alias for the association with Users model for recipient
+        onDelete: 'CASCADE',
+      });
+  };
 
   return Order;
 };

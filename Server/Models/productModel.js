@@ -1,4 +1,3 @@
-// models/Product.js
 const {sequelize, DataTypes} = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {

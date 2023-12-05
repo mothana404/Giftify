@@ -52,6 +52,7 @@ async function getPayment(req, res){
         for (let i = 0; i < allOrders.length; i++){
             total = total + (allOrders[i].order_price * allOrders[i].order_count);
             let theProduct = await Products.findByPk(allOrders[i].product_order_id);
+            console.log(allOrders[i].order_price)
             items.push({
                 price_data : {
                     currency : "usd",
@@ -60,9 +61,9 @@ async function getPayment(req, res){
                         images : [theProduct.img_url],
                         description : `${theProduct.description}`,
                     },
-                    unit_amount : parseInt(allOrders[i].order_price),
+                    unit_amount : `${allOrders[i].order_price}00`,
                 },
-                quantity: parseInt(allOrders[i].order_count),
+                quantity: allOrders[i].order_count,
             })
         };
         const successUrl = `http://localhost:8080/homepage?orderIds=${allOrders.map(order => order.order_id).join(',')}&total=${total}`;
@@ -102,7 +103,7 @@ async function afterPayment(req, res){
                     returning: true,
                 });
         };
-        res.redirect('http://localhost:3000/');
+        res.redirect('http://localhost:3001/profile#');//go to the history
     }catch(errro){
         console.log(errro);
         res.status(500).json('error in homepage router');

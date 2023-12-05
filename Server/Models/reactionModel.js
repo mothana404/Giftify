@@ -1,4 +1,3 @@
-// models/Reaction.js
 const { boolean } = require('joi');
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/config.json');
