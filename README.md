@@ -9,7 +9,4 @@
 - Tailwind
 - Node.js
 - Express
-- Postgres
-***
-## Explore the Design
-[wireframe and mockup](https://www.figma.com/file/KBuXafZUSANK9EEpIymMQ5/Giftify?type=design&node-id=0%3A1&mode=design&t=kSr8PnJKXJeUaKBX-1)
+- Postgresql
